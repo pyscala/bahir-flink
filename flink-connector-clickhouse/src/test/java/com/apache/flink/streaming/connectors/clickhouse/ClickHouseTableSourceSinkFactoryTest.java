@@ -17,19 +17,18 @@
 
 package com.apache.flink.streaming.connectors.clickhouse;
 
-import static com.apache.flink.table.descriptors.ClickHouseValidator.*;
-
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.DataTypes;
-import org.apache.flink.table.api.TableSchema;
 import org.apache.flink.table.descriptors.DescriptorProperties;
 import org.apache.flink.table.descriptors.Schema;
 import org.apache.flink.table.sinks.StreamTableSink;
 import org.apache.flink.types.Row;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Map;
+
+import static com.apache.flink.table.descriptors.ClickHouseValidator.*;
 
 
 /**

@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.apache.flink.streaming.connectors.clickhouse;
-
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.state.FunctionInitializationContext;
 import org.apache.flink.runtime.state.FunctionSnapshotContext;
@@ -31,7 +29,6 @@ import ru.yandex.clickhouse.settings.ClickHouseProperties;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Properties;
-
 
 /**
  * @author liufangliang

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.apache.flink.streaming.connectors.clickhouse;
 
 import com.apache.flink.table.descriptors.ClickHouseValidator;

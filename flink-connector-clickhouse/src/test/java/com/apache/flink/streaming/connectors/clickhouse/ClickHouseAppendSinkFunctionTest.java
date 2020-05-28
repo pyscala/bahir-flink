@@ -26,8 +26,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Properties;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by liufangliang on 2020/4/16.
  */
