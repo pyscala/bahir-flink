@@ -27,28 +27,28 @@ import java.util.Map;
 public class ClickHouseTest {
 
 
-	@Test
-	public void toConnectorProperties() throws Exception {
+    @Test
+    public void toConnectorProperties() throws Exception {
 
 
-		ClickHouse clickhouse = new ClickHouse()
-			.version("1")
-			.address("jdbc:clickhouse://localhost:8123/default")
-			.batchSize(1)
-			.database("qtt")
-			.ignoreError(false)
-			.padding(2000L)
-			.table("insert_test")
-			.username("admin")
-			.password("admin")
-			.retryAttempts(3)
-			.retryInterval(3000L);
+        ClickHouse clickhouse = new ClickHouse()
+            .version("1")
+            .address("jdbc:clickhouse://localhost:8123/default")
+            .batchSize(1)
+            .database("qtt")
+            .ignoreError(false)
+            .padding(2000L)
+            .table("insert_test")
+            .username("admin")
+            .password("admin")
+            .retryAttempts(3)
+            .retryInterval(3000L);
 
 
-		Map<String, String> connectorProperties = clickhouse.toConnectorProperties();
-		for (Map.Entry<String, String> entry : connectorProperties.entrySet()) {
-			System.out.println(entry.getKey() + ":" + entry.getValue());
-		}
-	}
+        Map<String, String> connectorProperties = clickhouse.toConnectorProperties();
+        for (Map.Entry<String, String> entry : connectorProperties.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+        }
+    }
 
 }

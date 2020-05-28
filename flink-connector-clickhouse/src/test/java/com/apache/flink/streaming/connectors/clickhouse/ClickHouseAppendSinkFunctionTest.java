@@ -32,43 +32,43 @@ import java.util.Properties;
 public class ClickHouseAppendSinkFunctionTest {
 
 
-	private static final String USERNAME = "user";
-	private static final String PASSWORD = "password";
-	private Connection connection;
-	private BalancedClickhouseDataSource dataSource;
-	private  PreparedStatement pstat;
+    private static final String USERNAME = "user";
+    private static final String PASSWORD = "password";
+    private Connection connection;
+    private BalancedClickhouseDataSource dataSource;
+    private  PreparedStatement pstat;
 
-	@Test
-	public void open() throws Exception {
-	}
+    @Test
+    public void open() throws Exception {
+    }
 
-	@Test
-	public void invoke() throws Exception {
-		Properties properties = new Properties();
-		properties.setProperty(USERNAME, "admin");
-		properties.setProperty(PASSWORD, "admin");
-		ClickHouseProperties clickHouseProperties = new ClickHouseProperties(properties);
-		dataSource = new BalancedClickhouseDataSource("jdbc:clickhouse://localhost:8123/default", clickHouseProperties);
-		connection = dataSource.getConnection();
-		pstat = connection.prepareStatement("");
-		Row value = new Row(2);
-		for (int i = 0; i < value.getArity(); i++) {
-			pstat.setObject(i + 1, value.getField(i));
-		}
+    @Test
+    public void invoke() throws Exception {
+        Properties properties = new Properties();
+        properties.setProperty(USERNAME, "admin");
+        properties.setProperty(PASSWORD, "admin");
+        ClickHouseProperties clickHouseProperties = new ClickHouseProperties(properties);
+        dataSource = new BalancedClickhouseDataSource("jdbc:clickhouse://localhost:8123/default", clickHouseProperties);
+        connection = dataSource.getConnection();
+        pstat = connection.prepareStatement("");
+        Row value = new Row(2);
+        for (int i = 0; i < value.getArity(); i++) {
+            pstat.setObject(i + 1, value.getField(i));
+        }
 
 
-	}
+    }
 
-	@Test
-	public void doExecuteRetries() throws Exception {
-	}
+    @Test
+    public void doExecuteRetries() throws Exception {
+    }
 
-	@Test
-	public void snapshotState() throws Exception {
-	}
+    @Test
+    public void snapshotState() throws Exception {
+    }
 
-	@Test
-	public void initializeState() throws Exception {
-	}
+    @Test
+    public void initializeState() throws Exception {
+    }
 
 }

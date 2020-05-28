@@ -23,42 +23,42 @@ import org.junit.Test;
  * Created by liufangliang on 2020/4/16.
  */
 public class ClickHouseTableSinkTest {
-	@Test
-	public void configure() throws Exception {
-	}
+    @Test
+    public void configure() throws Exception {
+    }
 
-	@Test
-	public void getFieldNames() throws Exception {
-	}
+    @Test
+    public void getFieldNames() throws Exception {
+    }
 
-	@Test
-	public void getFieldTypes() throws Exception {
-	}
+    @Test
+    public void getFieldTypes() throws Exception {
+    }
 
-	@Test
-	public void consumeDataStream() throws Exception {
-	}
+    @Test
+    public void consumeDataStream() throws Exception {
+    }
 
-	@Test
-	public void getConsumedDataType() throws Exception {
-	}
+    @Test
+    public void getConsumedDataType() throws Exception {
+    }
 
-	@Test
-	public void getOutputType() throws Exception {
-	}
+    @Test
+    public void getOutputType() throws Exception {
+    }
 
-	@Test
-	public void getTableSchema() throws Exception {
-	}
+    @Test
+    public void getTableSchema() throws Exception {
+    }
 
-	@Test
-	public void builder() throws Exception {
-	}
+    @Test
+    public void builder() throws Exception {
+    }
 
-	@Test
-	public void createPrepareStatement() throws Exception {
+    @Test
+    public void createPrepareStatement() throws Exception {
 
 
-	}
+    }
 
 }

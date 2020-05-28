@@ -24,8 +24,8 @@ import org.junit.Test;
  * Created by liufangliang on 2020/4/11.
  */
 public class ClickHouseValidatorTest {
-	@Test
-	public void validate() throws Exception {
+    @Test
+    public void validate() throws Exception {
 
-	}
+    }
 }

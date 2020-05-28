@@ -35,118 +35,116 @@ import java.util.Properties;
  * @date 2020/3/20 10:21 AM
  */
 public class ClickHouseAppendSinkFunction extends RichSinkFunction<Row> implements CheckpointedFunction {
+    private static final String USERNAME = "user";
+private static final String PASSWORD = "password";
 
 
-	private static final String USERNAME = "user";
-	private static final String PASSWORD = "password";
+    private static final Logger log = LoggerFactory.getLogger(ClickHouseAppendSinkFunction.class);
+    private static final long serialVersionUID = 1L;
+
+    private  Connection connection;
+    private  BalancedClickhouseDataSource dataSource;
+    private  PreparedStatement pstat;
+
+    private String address;
+    private String username;
+    private String password;
+
+    private String prepareStatement;
+    private Integer batchSize;
+    private Long commitPadding;
+
+    private Integer retries;
+    private Long retryInterval;
+
+    private Boolean ignoreInsertError;
+
+    private Integer currentSize;
+    private Long lastExecuteTime;
 
 
-	private static final Logger log = LoggerFactory.getLogger(ClickHouseAppendSinkFunction.class);
-	private static final long serialVersionUID = 1L;
+    public ClickHouseAppendSinkFunction(Properties properties){
 
-	private  Connection connection;
-	private  BalancedClickhouseDataSource dataSource;
-	private  PreparedStatement pstat;
+    }
 
-	private String address;
-	private String username;
-	private String password;
+    public ClickHouseAppendSinkFunction(String address, String username, String password, String prepareStatement, Integer batchSize, Long commitPadding, Integer retries, Long retryInterval, Boolean ignoreInsertError) {
+        this.address = address;
+        this.username = username;
+        this.password = password;
+        this.prepareStatement = prepareStatement;
+        this.batchSize = batchSize;
+        this.commitPadding = commitPadding;
+        this.retries = retries;
+        this.retryInterval = retryInterval;
+        this.ignoreInsertError = ignoreInsertError;
+    }
 
-	private String prepareStatement;
-	private Integer batchSize;
-	private Long commitPadding;
+    @Override
+    public void open(Configuration parameters) throws Exception {
+        super.open(parameters);
+        Properties properties = new Properties();
+        properties.setProperty(USERNAME, username);
+        properties.setProperty(PASSWORD, password);
+        ClickHouseProperties clickHouseProperties = new ClickHouseProperties(properties);
+        dataSource = new BalancedClickhouseDataSource(address, clickHouseProperties);
+        connection = dataSource.getConnection();
+        pstat = connection.prepareStatement(prepareStatement);
+        lastExecuteTime = System.currentTimeMillis();
+        currentSize = 0;
 
-	private Integer retries;
-	private Long retryInterval;
+    }
 
-	private Boolean ignoreInsertError;
+    @Override
+    public void invoke(Row value, Context context) throws Exception {
+        for (int i = 0; i < value.getArity(); i++) {
+            pstat.setObject(i + 1, value.getField(i));
+        }
+        pstat.addBatch();
+        currentSize++;
+        if (currentSize >= batchSize || (System.currentTimeMillis() - lastExecuteTime) > commitPadding) {
+            try {
+                doExecuteRetries(retries, retryInterval);
+            } catch (Exception e) {
+                log.error("clickhouse-insert-error ( maxRetries:" + retries + " , retryInterval : " + retryInterval + " millisecond )" + e.getMessage());
+            } finally {
+                pstat.clearBatch();
+                currentSize = 0;
+                lastExecuteTime = System.currentTimeMillis();
+            }
+        }
+    }
 
-	private Integer currentSize;
-	private Long lastExecuteTime;
+    public void doExecuteRetries(int count, long retryInterval) throws Exception {
 
+        int retrySize = 0;
+        Exception resultException = null;
+        for (int i = 0; i < count; i++) {
+            try {
+                pstat.executeBatch();
+                break;
+            } catch (Exception e) {
+                retrySize++;
+                resultException = e;
+            }
+            try {
+                Thread.sleep(retryInterval);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (retrySize == count && !ignoreInsertError) {
+            throw resultException;
+        }
+    }
 
-	public ClickHouseAppendSinkFunction(Properties properties){
+    @Override
+    public void snapshotState(FunctionSnapshotContext functionSnapshotContext) throws Exception {
+        doExecuteRetries(retries, retryInterval);
+    }
 
-	}
+    @Override
+    public void initializeState(FunctionInitializationContext functionInitializationContext) throws Exception {
 
-	public ClickHouseAppendSinkFunction(String address, String username, String password, String prepareStatement, Integer batchSize, Long commitPadding, Integer retries, Long retryInterval, Boolean ignoreInsertError) {
-		this.address = address;
-		this.username = username;
-		this.password = password;
-		this.prepareStatement = prepareStatement;
-		this.batchSize = batchSize;
-		this.commitPadding = commitPadding;
-		this.retries = retries;
-		this.retryInterval = retryInterval;
-		this.ignoreInsertError = ignoreInsertError;
-	}
-
-	@Override
-	public void open(Configuration parameters) throws Exception {
-		super.open(parameters);
-		Properties properties = new Properties();
-		properties.setProperty(USERNAME, username);
-		properties.setProperty(PASSWORD, password);
-		ClickHouseProperties clickHouseProperties = new ClickHouseProperties(properties);
-		dataSource = new BalancedClickhouseDataSource(address, clickHouseProperties);
-		connection = dataSource.getConnection();
-		pstat = connection.prepareStatement(prepareStatement);
-		lastExecuteTime = System.currentTimeMillis();
-		currentSize = 0;
-
-	}
-
-	@Override
-	public void invoke(Row value, Context context) throws Exception {
-		for (int i = 0; i < value.getArity(); i++) {
-			pstat.setObject(i + 1, value.getField(i));
-		}
-		pstat.addBatch();
-		currentSize++;
-		if (currentSize >= batchSize || (System.currentTimeMillis() - lastExecuteTime) > commitPadding) {
-			try {
-				doExecuteRetries(retries, retryInterval);
-			} catch (Exception e) {
-				log.error("clickhouse-insert-error ( maxRetries:" + retries + " , retryInterval : " + retryInterval + " millisecond )" + e.getMessage());
-			} finally {
-				pstat.clearBatch();
-				currentSize = 0;
-				lastExecuteTime = System.currentTimeMillis();
-			}
-		}
-	}
-
-	public void doExecuteRetries(int count, long retryInterval) throws Exception {
-
-		int retrySize = 0;
-		Exception resultException = null;
-		for (int i = 0; i < count; i++) {
-			try {
-				pstat.executeBatch();
-				break;
-			} catch (Exception e) {
-				retrySize++;
-				resultException = e;
-			}
-			try {
-				Thread.sleep(retryInterval);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		if (retrySize == count && !ignoreInsertError) {
-			throw resultException;
-		}
-	}
-
-	@Override
-	public void snapshotState(FunctionSnapshotContext functionSnapshotContext) throws Exception {
-		doExecuteRetries(retries, retryInterval);
-	}
-
-	@Override
-	public void initializeState(FunctionInitializationContext functionInitializationContext) throws Exception {
-
-	}
+    }
 
 }

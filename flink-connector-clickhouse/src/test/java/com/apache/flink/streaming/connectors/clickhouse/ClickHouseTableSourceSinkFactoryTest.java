@@ -37,38 +37,38 @@ import static com.apache.flink.table.descriptors.ClickHouseValidator.*;
 public class ClickHouseTableSourceSinkFactoryTest {
 
 
-	@Test
-	public void createStreamTableSink() throws Exception {
+    @Test
+    public void createStreamTableSink() throws Exception {
 
-		DescriptorProperties properties = new DescriptorProperties();
-		properties.putString(CONNECTOR_TYPE, CONNECTOR_TYPE_VALUE_CLICKHOUSE);
-		properties.putString(CONNECTOR_VERSION, "1");
-		properties.putString(CONNECTOR_ADRESS, "jdbc:clickhouse://localhost:8123/default");
-		properties.putString(CONNECTOR_DATABASE, "qtt");
-		properties.putString(CONNECTOR_TABLE, "insert_test");
-		properties.putString(CONNECTOR_USERNAME, "admin");
-		properties.putString(CONNECTOR_PASSWORD, "admin");
-		properties.putString(CONNECTOR_COMMIT_BATCH_SIZE, "1");
-		properties.putString(CONNECTOR_COMMIT_PADDING, "3000");
-		properties.putString(CONNECTOR_COMMIT_RETRY_ATTEMPTS, "3");
-		properties.putString(CONNECTOR_COMMIT_RETRY_INTERVAL, "3000");
-		properties.putString(CONNECTOR_COMMIT_IGNORE_ERROR, "false");
+        DescriptorProperties properties = new DescriptorProperties();
+        properties.putString(CONNECTOR_TYPE, CONNECTOR_TYPE_VALUE_CLICKHOUSE);
+        properties.putString(CONNECTOR_VERSION, "1");
+        properties.putString(CONNECTOR_ADRESS, "jdbc:clickhouse://localhost:8123/default");
+        properties.putString(CONNECTOR_DATABASE, "qtt");
+        properties.putString(CONNECTOR_TABLE, "insert_test");
+        properties.putString(CONNECTOR_USERNAME, "admin");
+        properties.putString(CONNECTOR_PASSWORD, "admin");
+        properties.putString(CONNECTOR_COMMIT_BATCH_SIZE, "1");
+        properties.putString(CONNECTOR_COMMIT_PADDING, "3000");
+        properties.putString(CONNECTOR_COMMIT_RETRY_ATTEMPTS, "3");
+        properties.putString(CONNECTOR_COMMIT_RETRY_INTERVAL, "3000");
+        properties.putString(CONNECTOR_COMMIT_IGNORE_ERROR, "false");
 
-		Schema schema = new Schema().field("s", DataTypes.STRING()).field("d", DataTypes.BIGINT());
-		Map<String, String> stringStringMap = schema.toProperties();
-
-
-		properties.putProperties(stringStringMap);
+        Schema schema = new Schema().field("s", DataTypes.STRING()).field("d", DataTypes.BIGINT());
+        Map<String, String> stringStringMap = schema.toProperties();
 
 
-		Row row = new Row(2);
-		row.setField(0, "ss");
-		row.setField(1, 88);
-		ClickHouseTableSourceSinkFactory factory = new ClickHouseTableSourceSinkFactory();
-		StreamTableSink<Row> streamTableSink = factory.createStreamTableSink(properties.asMap());
-		DataStream<Row> dataStream = StreamExecutionEnvironment.getExecutionEnvironment().fromElements(row);
-		streamTableSink.consumeDataStream(dataStream);
-	}
+        properties.putProperties(stringStringMap);
+
+
+        Row row = new Row(2);
+        row.setField(0, "ss");
+        row.setField(1, 88);
+        ClickHouseTableSourceSinkFactory factory = new ClickHouseTableSourceSinkFactory();
+        StreamTableSink<Row> streamTableSink = factory.createStreamTableSink(properties.asMap());
+        DataStream<Row> dataStream = StreamExecutionEnvironment.getExecutionEnvironment().fromElements(row);
+        streamTableSink.consumeDataStream(dataStream);
+    }
 
 
 }
