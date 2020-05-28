@@ -71,6 +71,7 @@
   </mailingLists>
 
   <modules>
+    <module>flink-connector-clickhouse</module>
     <module>flink-connector-activemq</module>
     <module>flink-connector-akka</module>
     <module>flink-connector-flume</module>
