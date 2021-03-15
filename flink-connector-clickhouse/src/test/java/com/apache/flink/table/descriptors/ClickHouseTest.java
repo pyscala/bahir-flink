@@ -21,16 +21,10 @@ import org.junit.Test;
 
 import java.util.Map;
 
-/**
- * Created by liufangliang on 2020/4/11.
- */
 public class ClickHouseTest {
-
 
     @Test
     public void toConnectorProperties() throws Exception {
-
-
         ClickHouse clickhouse = new ClickHouse()
             .version("1")
             .address("jdbc:clickhouse://localhost:8123/default")
@@ -43,8 +37,6 @@ public class ClickHouseTest {
             .password("admin")
             .retryAttempts(3)
             .retryInterval(3000L);
-
-
         Map<String, String> connectorProperties = clickhouse.toConnectorProperties();
         for (Map.Entry<String, String> entry : connectorProperties.entrySet()) {
             System.out.println(entry.getKey() + ":" + entry.getValue());

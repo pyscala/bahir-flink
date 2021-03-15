@@ -27,7 +27,6 @@ import org.apache.flink.table.descriptors.DescriptorProperties;
 public class ClickHouseValidator extends ConnectorDescriptorValidator {
 
     public static final String CONNECTOR_TYPE_VALUE_CLICKHOUSE = "clickhouse";
-
     public static final String CONNECTOR_ADRESS = "connector.address";
     public static final String CONNECTOR_DATABASE = "connector.database";
     public static final String CONNECTOR_TABLE = "connector.table";
@@ -35,7 +34,6 @@ public class ClickHouseValidator extends ConnectorDescriptorValidator {
     public static final String CONNECTOR_PASSWORD = "connector.password";
     public static final String CONNECTOR_COMMIT_BATCH_SIZE = "connector.commit.batch.size";
     public static final String CONNECTOR_COMMIT_PADDING = "connector.commit.padding";
-
     public static final String CONNECTOR_COMMIT_RETRY_ATTEMPTS = "connector.commit.retry.attempts";
     public static final String CONNECTOR_COMMIT_RETRY_INTERVAL = "connector.commit.retry.interval";
     public static final String CONNECTOR_COMMIT_IGNORE_ERROR = "connector.commit.ignore.error";

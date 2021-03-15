@@ -26,17 +26,13 @@ import static com.apache.flink.table.descriptors.ClickHouseValidator.*;
 /**
  * Connector descriptor for ClickHouse
  */
-
 public class ClickHouse extends ConnectorDescriptor {
 
-
     private DescriptorProperties properties = new DescriptorProperties();
-
 
     public ClickHouse() {
         super(CONNECTOR_TYPE_VALUE_CLICKHOUSE, 1, false);
     }
-
 
     /**
      * Set the ClickHouse version to be used .Required.

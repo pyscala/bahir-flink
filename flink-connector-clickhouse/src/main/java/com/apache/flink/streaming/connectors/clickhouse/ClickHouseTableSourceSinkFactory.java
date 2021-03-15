@@ -45,7 +45,6 @@ import static org.apache.flink.table.descriptors.Schema.*;
  */
 public class ClickHouseTableSourceSinkFactory implements StreamTableSinkFactory<Row> {
 
-
     @Override
     public Map<String, String> requiredContext() {
         Map<String, String> context = new HashMap<>();
@@ -88,7 +87,6 @@ public class ClickHouseTableSourceSinkFactory implements StreamTableSinkFactory<
 
     }
 
-
     @Override
     public StreamTableSink<Row> createStreamTableSink(Map<String, String> map) {
         DescriptorProperties descriptorProperties = getValidatedPropertities(map);
@@ -109,7 +107,6 @@ public class ClickHouseTableSourceSinkFactory implements StreamTableSinkFactory<
 
         return builder.builder();
     }
-
 
     private DescriptorProperties getValidatedPropertities(Map<String, String> properties) {
         final DescriptorProperties descriptorProperties = new DescriptorProperties(true);

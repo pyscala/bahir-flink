@@ -30,14 +30,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Properties;
 
-/**
- * @author liufangliang
- * @date 2020/3/20 10:21 AM
- */
 public class ClickHouseAppendSinkFunction extends RichSinkFunction<Row> implements CheckpointedFunction {
     private static final String USERNAME = "user";
 private static final String PASSWORD = "password";
-
 
     private static final Logger log = LoggerFactory.getLogger(ClickHouseAppendSinkFunction.class);
     private static final long serialVersionUID = 1L;
@@ -61,11 +56,6 @@ private static final String PASSWORD = "password";
 
     private Integer currentSize;
     private Long lastExecuteTime;
-
-
-    public ClickHouseAppendSinkFunction(Properties properties){
-
-    }
 
     public ClickHouseAppendSinkFunction(String address, String username, String password, String prepareStatement, Integer batchSize, Long commitPadding, Integer retries, Long retryInterval, Boolean ignoreInsertError) {
         this.address = address;

@@ -26,9 +26,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Properties;
 
-/**
- * Created by liufangliang on 2020/4/16.
- */
 public class ClickHouseAppendSinkFunctionTest {
 
 
@@ -56,19 +53,6 @@ public class ClickHouseAppendSinkFunctionTest {
             pstat.setObject(i + 1, value.getField(i));
         }
 
-
-    }
-
-    @Test
-    public void doExecuteRetries() throws Exception {
-    }
-
-    @Test
-    public void snapshotState() throws Exception {
-    }
-
-    @Test
-    public void initializeState() throws Exception {
     }
 
 }

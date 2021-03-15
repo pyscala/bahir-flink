@@ -44,7 +44,6 @@ public class ClickHouseTableSink implements AppendStreamTableSink<Row> {
     private static final Logger log = LoggerFactory.getLogger(ClickHouseTableSink.class);
     private static final Integer BATCH_SIZE_DEFAULT = 5000;
     private static final Long COMMIT_PADDING_DEFAULT = 5000L;
-
     private static final Integer RETRIES_DEFAULT = 3;
     private static final Long RETRY_INTERVAL_DEFAULT = 3000L;
     private static final Boolean IGNORE_INSERT_ERROR = false;

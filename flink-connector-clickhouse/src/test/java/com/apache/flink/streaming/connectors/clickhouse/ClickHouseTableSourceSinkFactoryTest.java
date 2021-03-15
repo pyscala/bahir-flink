@@ -30,10 +30,6 @@ import java.util.Map;
 
 import static com.apache.flink.table.descriptors.ClickHouseValidator.*;
 
-
-/**
- * Created by liufangliang on 2020/4/16.
- */
 public class ClickHouseTableSourceSinkFactoryTest {
 
 
@@ -57,9 +53,7 @@ public class ClickHouseTableSourceSinkFactoryTest {
         Schema schema = new Schema().field("s", DataTypes.STRING()).field("d", DataTypes.BIGINT());
         Map<String, String> stringStringMap = schema.toProperties();
 
-
         properties.putProperties(stringStringMap);
-
 
         Row row = new Row(2);
         row.setField(0, "ss");
